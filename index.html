@@ -1,0 +1,453 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Renuka's Portfolio</title>
+
+  <!-- Font Awesome for Icons -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" />
+
+  <style>
+    /* Global Styles */
+    body, html {
+      margin: 0;
+      padding: 0;
+      font-family: Arial, sans-serif;
+      background-color: #f4f4f4;
+      color: #333;
+    }
+    a { text-decoration: none; color: #333; }
+    .container { width: 90%; margin: 0 auto; }
+
+    /* Loader Styles */
+    #loader {
+      position: fixed;
+      width: 100%; height: 100vh;
+      background: #fff url('https://i.gifer.com/YCZH.gif') no-repeat center;
+      background-size: 100px 100px;
+      z-index: 9999;
+    }
+    #content { display: none; animation: fadeIn 1s ease-in; }
+    @keyframes fadeIn { from {opacity:0;} to {opacity:1;} }
+
+    /* Navbar */
+    nav {
+      background-color: #333;
+      padding: 1rem;
+      color: #fff;
+    }
+    .logo { font-size: 1.5rem; font-weight: bold; }
+    .nav-links { list-style: none; padding: 0; display: flex; }
+    .nav-links li { margin: 0 15px; }
+    .nav-links a {
+      color: #fff;
+      font-size: 1rem;
+      transition: color 0.3s;
+    }
+    .nav-links a:hover { color: #f4a261; }
+
+    /* Hero Section */
+    .hero {
+      background: url('https://images.unsplash.com/photo-1506744038136-46273834b3fb?ixlib=rb-4.0.3&auto=format&fit=crop&w=1950&q=80') no-repeat center;
+      background-size: cover;
+      background-attachment: fixed;
+      padding: 80px 0;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      text-align: center;
+      color: #fff;
+      position: relative;
+    }
+    .hero .overlay {
+      background: rgba(0, 0, 0, 0.5);
+      padding: 50px 20px;
+      border-radius: 10px;
+      width: 100%;
+      max-width: 700px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+    }
+    .hero img {
+      width: 250px;
+      height: 250px;
+      object-fit: cover;
+      border-radius: 50%;
+      margin-bottom: 20px;
+      box-shadow: 0 4px 12px rgba(0,0,0,0.4);
+      transition: transform 0.5s ease;
+    }
+    .hero img:hover {
+      transform: scale(1.1);
+    }
+    .hero h1 { font-size: 3rem; margin-bottom: 10px; }
+    .hero p { font-size: 1.25rem; margin-bottom: 20px; }
+    .btn {
+      background-color: #f4a261;
+      padding: 10px 20px;
+      color: #fff;
+      font-size: 1rem;
+      border-radius: 5px;
+      text-transform: uppercase;
+      cursor: pointer;
+      transition: background-color 0.3s;
+    }
+    .btn:hover { background-color: #e76f51; }
+
+    /* About Section */
+    .about, .contact { background-color: #fff; padding: 60px 0; text-align: center; }
+    .about h2, .contact h2, .projects h2 { font-size: 2.5rem; margin-bottom: 20px; }
+
+    .about-content {
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-start;
+      gap: 20px;
+      text-align: left;
+      margin-top: 30px;
+    }
+    .about-left, .about-right {
+      flex: 1;
+      min-width: 280px;
+    }
+    @media (max-width: 768px) {
+      .about-content {
+        flex-direction: column;
+        text-align: center;
+      }
+      .about-left, .about-right {
+        width: 100%;
+      }
+    }
+
+    /* Projects Section */
+    .projects {
+      background-color: #264653;
+      color: #fff;
+      padding: 60px 0;
+      text-align: center;
+    }
+    .project-grid {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: center;
+      gap: 20px;
+    }
+    .project-card {
+      background-color: #2a9d8f;
+      padding: 20px;
+      width: 200px;
+      border-radius: 5px;
+    }
+    .project-card h3 { font-size: 1.5rem; margin-bottom: 10px; }
+
+    /* Contact Section */
+    .contact form {
+      max-width: 600px;
+      margin: 0 auto;
+    }
+    .contact form input,
+    .contact form textarea {
+      width: 100%;
+      padding: 15px;
+      margin-bottom: 15px;
+      border: 2px solid #ddd;
+      border-radius: 5px;
+      font-size: 1rem;
+    }
+    .contact form button {
+      background-color: #f4a261;
+      padding: 15px 20px;
+      color: #fff;
+      font-size: 1rem;
+      border-radius: 5px;
+      cursor: pointer;
+      transition: background-color 0.3s;
+    }
+    .contact form button:hover { background-color: #e76f51; }
+
+    /* Footer */
+    footer {
+      background-color: #333;
+      color: #fff;
+      padding: 40px 20px 20px 20px;
+      text-align: center;
+    }
+    .footer-info {
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-start;
+      flex-wrap: wrap;
+      gap: 20px;
+      margin-bottom: 20px;
+    }
+    .footer-column {
+      flex: 1;
+      min-width: 250px;
+      padding: 10px;
+    }
+    .footer-column h3 {
+      font-size: 1.5rem;
+      margin-bottom: 15px;
+      color: #f4a261;
+    }
+    .footer-column p, .footer-column a {
+      font-size: 1.1rem;
+      margin: 8px 0;
+      color: #fff;
+      text-decoration: none;
+    }
+    .footer-column a:hover {
+      text-decoration: underline;
+    }
+    .social-center {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+    }
+    .social-icons {
+      margin-top: 10px;
+    }
+    .social-icons a {
+      font-size: 1.8rem;
+      margin: 10px;
+      color: #fff;
+      transition: transform 0.3s, color 0.3s;
+    }
+    .social-icons a:hover {
+      color: #f4a261;
+      transform: scale(1.2);
+    }
+    .footer-bottom {
+      border-top: 1px solid #555;
+      padding-top: 15px;
+      font-size: 1rem;
+    }
+    @media (max-width: 768px) {
+      .footer-info {
+        flex-direction: column;
+        text-align: center;
+      }
+    }
+  </style>
+</head>
+
+<body onload="hideLoader()">
+  <div id="loader"></div>
+
+  <div id="content">
+    <header>
+      <nav class="container">
+        <div class="logo">Welcome to Portfolio</div>
+        <ul class="nav-links">
+          <li><a href="#home">Home</a></li>
+          <li><a href="#about">About</a></li>
+          <li><a href="#skills">Skills</a></li>
+          <li><a href="#projects">Projects</a></li>
+          <li><a href="#education-certifications">Education</a></li>
+           <li><a href="#education-certifications">Certifications</a></li>
+          <li><a href="#contact">Contact</a></li>
+        </ul>
+      </nav>
+    </header>
+
+    <section id="home" class="hero container">
+      <div class="overlay">
+        <img src="photo.jpeg" alt="Renuka Lengare profile photo" />
+        <h1>Renuka Lengare</h1>
+        <p>BCA Student | Web Developer | Programmer</p>
+        <a href="#contact" class="btn">Get in Touch</a>
+      </div>
+    </section>
+
+    <section id="about" class="about container">
+      <h2>About Me</h2>
+      <div class="about-content">
+        <div class="about-left">
+          <p>Hi! I’m Renuka Lengare, a third-year BCA student at Dr BMN College Of Home Science, passionate web developer and programmer. I enjoy turning ideas into real websites and applications. Always excited to learn new technologies to improve my skills.</p>
+        </div>
+        <div class="about-right">
+          <p>I specialize in HTML, CSS, JavaScript, Python, MySQL and modern frameworks. My goal is to create user-friendly and visually appealing websites. I believe continuous learning and creativity are the keys to success in this field.</p>
+        </div>
+      </div>
+    </section>
+
+   <section id="skills" class="container py-4">
+  <!-- Main Section Title -->
+  <h2 style="text-align: center; margin-bottom: 30px; font-size: 36px; font-weight: bold;">
+    Skills
+  </h2>
+
+  <div style="display: flex; justify-content: center; gap: 60px; flex-wrap: wrap; max-width: 900px; margin: 0 auto; font-size: 18px; line-height: 1.8;">
+
+    <!-- Left Side -->
+    <div style="width: 400px;">
+      <p><strong>Programming:</strong> Python, HTML, CSS, JavaScript, PHP</p>
+      <p><strong>Database:</strong> DBMS, MySQL</p>
+      <p><strong>Business Applications:</strong> Advanced Excel, Tally ERP</p>
+    </div>
+
+    <!-- Right Side -->
+    <div style="width: 400px;">
+      <p><strong>Project Management:</strong> Event Planning, System Development</p>
+      <p><strong>Soft Skills:</strong> Teamwork, Leadership, Problem-Solving, Time Management, Communication</p>
+    </div>
+
+  </div>
+</section>
+
+
+    <section id="projects" class="projects container">
+      <h2>My Projects</h2>
+      <div class="project-grid">
+        <div class="project-card">
+          <h3><a href="/MyProjects.html">Portfolio Website</a></h3>
+          <p>A personal portfolio website showcasing my skills, background, and projects using HTML, CSS and JavaScript.</p>
+        </div>
+        <div class="project-card">
+          <h3><a href="/MyProjects.html">Centralized Event Management System</a></h3>
+          <p>Manages event logistics, registrations, and feedback forms.</p>
+        </div>
+        <div class="project-card">
+          <h3><a href="/MyProjects.html">Campus Club Resource Management System</a></h3>
+          <p>Developed a Python-based system to centralize student club information with a basic database, making it easy for students to view and search for clubs. Led the US members and contributed to coding and project management.</p>
+        </div>
+      </div>
+    </section>
+
+ <section id="education-certifications" class="container py-4">
+  
+  <!-- Main Section Title -->
+  <h2 style="text-align: center; margin-bottom: 30px; font-size: 36px; font-weight: bold;">
+    Education & Certifications
+  </h2>
+
+  <div style="display: flex; justify-content: center; gap: 50px; flex-wrap: wrap;">
+
+    <!-- Education Table -->
+    <table border="1" style="border-collapse: collapse; width: 45%; text-align: left;">
+      <tr style="background-color: #f4f4f4;">
+        <th style="padding: 12px; text-align: center;">Education</th>
+      </tr>
+      <tr>
+        <td style="padding: 12px;">
+          Bachelor of Computer Applications (BCA) – SNDT Women’s University, Matunga (2023–2026)
+        </td>
+      </tr>
+      <tr>
+        <td style="padding: 12px;">
+          12th Standard – K.J. Somaiya College Of Science and Commerce, Vidyavihar (2021–2023)
+        </td>
+      </tr>
+      <tr>
+        <td style="padding: 12px;">
+          10th Standard – New English School Lengarewadi-Madgule (2012–2021)
+        </td>
+      </tr>
+    </table>
+
+    <!-- Certifications Table -->
+    <table border="1" style="border-collapse: collapse; width: 45%; text-align: left;">
+      <tr style="background-color: #f4f4f4;">
+        <th style="padding: 12px; text-align: center;">Certifications</th>
+      </tr>
+      <tr>
+        <td style="padding: 12px;">
+          Diploma in Office Management
+          <span style="font-style: italic;">
+            – Issued by Kohinoor Computer Institute, Year: 2022
+          </span>
+        </td>
+      </tr>
+      <tr>
+        <td style="padding: 12px;">
+          MS-CIT, KLiC Tally Prime with GST, KLiC Advance Excel
+          <span style="font-style: italic;">
+            – Issued by Maharashtra Knowledge Corporation Limited (MKCL), Year: 2023
+          </span>
+        </td>
+      </tr>
+      <tr>
+        <td style="padding: 12px;">
+          Introduction to German and Basic German Language (Grade A)
+          <span style="font-style: italic;">
+            – Issued by Dr. BMN College Of Home Science, Year: 2023–24
+          </span>
+        </td>
+      </tr>
+      <tr>
+        <td style="padding: 12px;">
+          Information Technology (Grade O)
+          <span style="font-style: italic;">
+            – Soft Skills Training, Competitive Exam/Aptitude Training, Advance Python Programming,
+            Internet of Things, Ethical Hacking & IT Security
+          </span>
+        </td>
+      </tr>
+    </table>
+
+  </div>
+</section>
+
+
+
+
+    <section id="contact" class="contact container">
+  <h2>Contact Me</h2>
+
+  <div class="contact-container">
+    <form action="https://formspree.io/f/xzdpzbjg" method="POST">
+      
+      <input type="text" name="name" placeholder="Your Name" required>
+
+      <input type="email" name="email" placeholder="Your Email" required>
+
+      <textarea name="message" placeholder="Your Message" required></textarea>
+
+      <button type="submit">Send Message</button>
+
+    </form>
+  </div>
+</section>
+
+
+    <footer>
+      <div class="footer-info container">
+        <div class="footer-column">
+          <h3>Contact Information</h3>
+          <p><i class="fas fa-envelope"></i> <a href="mailto:renukalengare2005@gmail.com">renukalengare2005@gmail.com</a></p>
+          <p><i class="fas fa-phone"></i> <a href="tel:+917738530720">+91 7738530720</a></p>
+        </div>
+
+        <div class="footer-column social-center">
+          <h3>Social Media</h3>
+          <div class="social-icons">
+            <a href="https://www.instagram.com/ren00ka_" target="_blank" title="Instagram"><i class="fab fa-instagram"></i></a>
+            <a href="https://wa.me/917738530720" target="_blank" title="WhatsApp"><i class="fab fa-whatsapp"></i></a>
+            <a href="https://linkedin.com/in/renukalengare" target="_blank" title="LinkedIn"><i class="fab fa-linkedin"></i></a>
+            <a href="https://github.com/renukalengare" target="_blank" title="GitHub"><i class="fab fa-github"></i></a>
+          </div>
+        </div>
+
+        <div class="footer-column">
+          <h3>Location</h3>
+          <p><i class="fas fa-map-marker-alt"></i> Mumbai, Maharashtra, India</p>
+        </div>
+      </div>
+
+      <div class="footer-bottom">
+        <p>&copy; 2025 Renuka. All Rights Reserved.</p>
+      </div>
+    </footer>
+  </div>
+
+  <script>
+    function hideLoader() {
+      document.getElementById('loader').style.display = 'none';
+      document.getElementById('content').style.display = 'block';
+    }
+  </script>
+</body>
+</html>
